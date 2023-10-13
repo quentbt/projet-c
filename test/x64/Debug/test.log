@@ -1,2 +1,4 @@
 ﻿  main.c
-  test.vcxproj -> C:\Users\quent\OneDrive\Bureau\Cours\Prog\langage C\test\x64\Debug\test.exe
+C:\Users\quent\Projet C\test\main.c(43,9): warning C4013: 'strcmp' non défini(e) ; extern retournant int pris par défaut
+C:\Users\quent\Projet C\test\main.c(66,11): warning C4476: 'printf' : caractère de champ de type '\xc3' inconnu dans le spécificateur de format
+  test.vcxproj -> C:\Users\quent\Projet C\test\x64\Debug\test.exe
