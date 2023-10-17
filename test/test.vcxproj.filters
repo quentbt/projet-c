@@ -21,5 +21,16 @@
     <ClCompile Include="QVGM.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="testStruct.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="fonction.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fonction.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
