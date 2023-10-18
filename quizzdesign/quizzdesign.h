@@ -15,6 +15,11 @@ public:
     quizzdesign(QWidget *parent = nullptr);
     ~quizzdesign();
 
+    // Fonctions
+    void SwitchPage(int NumeroPage);
+
+
+
 private:
     Ui::quizzdesign *ui;
 };
