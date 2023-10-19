@@ -1,10 +1,6 @@
 ﻿  fonction.c
-C:\Users\quent\Projet C\test\fonction.c(32,3): warning C4013: 'printf' non défini(e) ; extern retournant int pris par défaut
-C:\Users\quent\Projet C\test\fonction.c(33,3): warning C4013: 'scanf' non défini(e) ; extern retournant int pris par défaut
-C:\Users\quent\Projet C\test\fonction.c(35,7): warning C4013: 'strcmp' non défini(e) ; extern retournant int pris par défaut
-C:\Users\quent\Projet C\test\fonction.c(62,7): warning C4013: 'stricmp' non défini(e) ; extern retournant int pris par défaut
-C:\Users\quent\Projet C\test\fonction.c(64,4): warning C4013: 'strcpy' non défini(e) ; extern retournant int pris par défaut
-C:\Users\quent\Projet C\test\fonction.c(21,7): warning C4101: 'questionPoser' : variable locale non référencée
-C:\Users\quent\Projet C\test\fonction.c(22,7): warning C4101: 'questionEnlever' : variable locale non référencée
-C:\Users\quent\Projet C\test\fonction.c(189,3): warning C4013: 'exit' non défini(e) ; extern retournant int pris par défaut
+C:\Users\quent\Projet C\test\fonction.c(12,2): warning C4091: 'extern ' : ignoré à gauche de 'question' quand aucune variable n'est déclarée
+C:\Users\quent\Projet C\test\fonction.c(22,2): warning C4091: 'extern ' : ignoré à gauche de 'matiere' quand aucune variable n'est déclarée
+C:\Users\quent\Projet C\test\fonction.c(29,2): warning C4091: 'extern ' : ignoré à gauche de 'Jeu' quand aucune variable n'est déclarée
+C:\Users\quent\Projet C\test\fonction.c(119,3): warning C4013: 'Sleep' non défini(e) ; extern retournant int pris par défaut
   test.vcxproj -> C:\Users\quent\Projet C\test\x64\Debug\test.exe

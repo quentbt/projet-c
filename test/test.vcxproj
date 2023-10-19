@@ -129,8 +129,6 @@
   <ItemGroup>
     <ClCompile Include="fonction.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="QVGM.c" />
-    <ClCompile Include="testStruct.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fonction.h" />

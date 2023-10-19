@@ -1,195 +1,230 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
-#define _CRT_SECURE_NO_WARNINGS
+#include "fonction.h"
 
-struct Question_Reponse {
+extern struct question {
 
-	char listeTheme[9][20];
-	bool valeurTheme[9];
+	char* question;
+	char* bonneReponse;
+	char* reponse[4];
+	char* difficulte;
 };
 
+extern struct matiere {
 
-char questionDonner[2][8][50] = { {"Quelle est la longueur d'un marathon ?", "42km" , "41km" , "56km" , "45km" , "42km" , "Sport" , "*"},
-	{"Quel est l'actuel président français ?", "Macron", "Sarkozy", "Obama", "Macron", "Holland", "Culture g", ""} };
+	char nom[20];
+	bool active;
+	struct question* questionAll[100];
+	struct question* questionPoser[100];
+	int nbrQuestion;
+	int nbrQuestionPoser;
+};
+
+extern struct Jeu {
+
+	struct matiere* listeMatiere[9];
+	struct matiere* listeMatiereActive[9];
+	int nbrMatiereActive;
+};
+
+struct question question1 = { "En quel année à été découvert l'Amérique ?","1492",{"1598","1492","1678","1478"},"" };
+struct question question2 = { "Combien font 2(2+4) ?", "12", {"18","22","8","12"}, "" };
+struct question question3 = { "Quel est la célèbre formule d'équivalence entre la masse et l'énérgie ?","e=mc²",{"e=m6","e=mc²","m=ec²","Ec=1/2mv²"},"" };
+struct question question4 = { "Quel est la traduction de la phrase suivante : \"The sun is yellow\" en français ?","Le soleil est jaune",{"Le soleil est beau","Le fils est jaune","La lune est blanche","Le soleil est jaune" },"" };
+struct question question5 = { "Qui a chanté : \"J'suis dans la cuisine tu bouffes c'que je te prepare\"","Kaaris",{"Booba","Rohff","Kaaris","Jul" }, "" };
+struct question question6 = { "Comment s'appelle le film où Andrew Garfield joue le role princpal ?","Spiderman",{"Superman","Spiderman","Aquaman","Le loup de wall street"},"" };
+struct question question7 = { "Qui à un lampadaire dans lol ?", "Jax",{ "Sejuani", "Jax", "Milio","Sion"}, ""};
+struct question question8 = { "Quel est l'actuel président français ?", "Macron", {"Sarkozy", "Obama", "Macron", "Holland"}, "" };
+struct question question9 = { "Quelle est la longueur d'un marathon ?", "42km" , {"41km" , "56km" , "45km" , "42km" }, "" };
+
+struct question listeQuestionPoser = { NULL };
+
+struct matiere histoire = { "histoire" , true, {&question1}, {NULL}, 1, 0};
+struct matiere maths = { "maths" , true, {&question2}, {NULL}, 1, 0};
+struct matiere science = { "science" , true, {&question3}, {NULL}, 1, 0};
+struct matiere langue = { "langue" , true,  {&question4}, {NULL}, 1, 0};
+struct matiere musique = { "musique" , true, {&question5}, {NULL}, 1, 0};
+struct matiere cinema = { "cinema" , true, {&question6}, {NULL}, 1, 0};
+struct matiere jeux_videos = { "jeux_videos" , true, {&question7}, {NULL}, 1, 0};
+struct matiere culture_g = { "culture_g" , true, {&question8}, {NULL}, 1, 0};
+struct matiere sport = { "sport" , true , {&question9}, {NULL}, 1, 0};
+
+struct Jeu jeu = { {&histoire, &maths, &science, &langue, &musique, &cinema, &jeux_videos, &culture_g, &sport},{NULL}, 0 };
 
 int jouer() {
 
-	struct Question_Reponse jeu;
+	int solde = 10;
+	int reponseJoueur;
+	char* reponseDonnee;
+	
+	for (int i = 0; i < (sizeof(jeu.listeMatiere) / sizeof(jeu.listeMatiere[0])); i++) {
+		
+		if (jeu.listeMatiere[i]) {
 
-	bool questionTroll = true;
+			if (jeu.listeMatiere[i]->active) {
 
-	char answer[1];
-	char questionPoser[7][8][50];
-	char questionEnlever[50][8][50];
-
-	int nbrQuestion = 0;
-	int argent = 10;
-	int filtreQuestion = 0;
-
-	//printf("%s \n",questionDonner[0][6]);
-
-	while (questionTroll) {
-
-		printf("Ce devoir merite-t-il un 20/20 ? \n A> NON \n B> OUI ");
-		scanf("%s", &answer);
-
-		if (strcmp(answer, "b") == 0) {
-
-			questionTroll = false;
+				jeu.listeMatiereActive[jeu.nbrMatiereActive] = jeu.listeMatiere[i];
+				jeu.nbrMatiereActive++;
+			}
 		}
 	}
 
+	for (int nombreQuestion = 0; nombreQuestion < 5; nombreQuestion++) {
 
-	//Filtre à faire plus tard
-	printf("%d", jeu.valeurTheme[0]);
+		int nbrAleatoireMatiere; 
+		int nbrALeatoireQuestion;
 
-	while (filtreQuestion < sizeof(jeu.valeurTheme)) {
+		while (1) {
 
-		if (jeu.valeurTheme[filtreQuestion]) {
+			nbrAleatoireMatiere = Random(0, jeu.nbrMatiereActive - 1);
+			nbrALeatoireQuestion = Random(0, jeu.listeMatiereActive[nbrAleatoireMatiere]->nbrQuestion - 1);
 
+			if (jeu.listeMatiere[nbrAleatoireMatiere]->questionAll[nbrALeatoireQuestion]) {
 
+				printf(" %s\n", jeu.listeMatiere[nbrAleatoireMatiere]->questionAll[nbrALeatoireQuestion]->question);
+
+				for (int boucleReponse = 0; boucleReponse < sizeof(jeu.listeMatiere[nbrAleatoireMatiere]->questionAll[nbrALeatoireQuestion]->reponse) / sizeof(jeu.listeMatiere[nbrAleatoireMatiere]->questionAll[nbrALeatoireQuestion]->reponse[0]); boucleReponse++) {
+
+					printf("Reponse %d > %s\n", boucleReponse + 1, jeu.listeMatiere[nbrAleatoireMatiere]->questionAll[nbrALeatoireQuestion]->reponse[boucleReponse]);
+				}
+
+				while (1) {
+
+					if (scanf_s("%d", &reponseJoueur) == 1) {
+
+						if (reponseJoueur >= 1 && reponseJoueur <= 4) {
+
+							reponseDonnee = jeu.listeMatiere[nbrAleatoireMatiere]->questionAll[nbrALeatoireQuestion]->reponse[reponseJoueur - 1];
+							break;
+						}
+						else
+							printf("Repondez a la question avec 1, 2 ,3, 4 \n Votre reponse : ");
+					}
+				}
+
+				if (reponseDonnee == jeu.listeMatiere[nbrAleatoireMatiere]->questionAll[nbrALeatoireQuestion]->bonneReponse) {
+
+					solde = solde * 10;
+				}
+
+				jeu.listeMatiere[nbrAleatoireMatiere]->questionPoser[jeu.listeMatiere[nbrAleatoireMatiere]->nbrQuestionPoser] = jeu.listeMatiere[nbrAleatoireMatiere]->questionAll[nbrALeatoireQuestion];
+				jeu.listeMatiere[nbrAleatoireMatiere]->questionAll[nbrALeatoireQuestion] = NULL;
+				jeu.listeMatiere[nbrAleatoireMatiere]->nbrQuestionPoser++;
+				break;
+			}
 		}
-		filtreQuestion++;
+
+		printf("Votre solde est de :%d \n", solde);
+		Sleep(1000);
+		ClearScreen();
 	}
 
-	/*printf("%s", questionPoser[0]);*/
-
-
-	while (nbrQuestion < 5) {
-
-		printf("%s\n A> %s \n B> %s \n C> %s \n D> %s", questionDonner[nbrQuestion][0], questionDonner[nbrQuestion][2], questionDonner[nbrQuestion][3], questionDonner[nbrQuestion][4], questionDonner[nbrQuestion][5]);
-		scanf("%s", &answer);
-
-		if (stricmp(answer, "a") == 0) {
-
-			strcpy(answer, questionDonner[nbrQuestion][2]);
-		}
-		if (stricmp(answer, "b") == 0) {
-
-			strcpy(answer, questionDonner[nbrQuestion][3]);
-		}
-		if (stricmp(answer, "c") == 0) {
-
-			strcpy(answer, questionDonner[nbrQuestion][4]);
-		}
-		if (stricmp(answer, "d") == 0) {
-			
-			strcpy(answer, questionDonner[nbrQuestion][5]);
-		}
-
-		if (stricmp(answer, questionDonner[nbrQuestion][1]) == 0) {
-
-			argent = argent * 10;
-		}
-
-		printf("Vous avez gagne %d euros \n", argent);
-		nbrQuestion++;
-	}
-
-	// Faire une opération pour determine si on doit lui enlevé des gains
-	printf("Vous avez gagne %d euros", argent);
-	return argent;
+	printf("Vous avez gagné %d euros", solde);
+	return solde;
 }
 
-bool Option() {
+void Option() {
 
-	int choix;
-	int valid;
+	int playerInput;
 
-	// Thème pour filtrer les questions
-	bool histoireTheme = true;
-	bool mathsTheme = true;
-	bool scienceTheme = true;
-	bool langueTheme = true;
-	bool musiqueTheme = true;
-	bool cinemaTheme = true;
-	bool jvTheme = true;
-	bool cultureTheme = true;
-	bool sportTheme = true;
+	while (1) {
 
-	bool themeValide[9] = {histoireTheme, mathsTheme, scienceTheme, langueTheme, musiqueTheme, cinemaTheme, jvTheme, cultureTheme, sportTheme};
-
-	// Boucle des paramètres
-	bool settings = true;
-
-	struct Question_Reponse jeu;
-	char *theme[] = {"","Histoire", "Maths ","Science","Langues ","musique ","Cinema" ,"Jeux - videos ","Culture G ","Sport"};
-
-	int i = 0;
-
-	while (i < 10){
-
-		strcpy(jeu.listeTheme[i], theme[i]);
-		i++;
-	}
+		ClearScreen();
+		for (int i = 0; i < sizeof(jeu.listeMatiere) / sizeof(jeu.listeMatiere[0]); i++) {
 	
-
-	while (settings) {
-
-		for (int i = 0; i < 10; i++) {
-
-			if (i == 0) {
-				i++;
-			}
-			printf("%d> %s\n",i, theme[i]);
+			printf("%d > %s\n",i+1, jeu.listeMatiere[i]->nom);
 		}
-		printf("0> Retour \n");
+		printf("\n0 > Retour");
 
-		scanf("%d", &choix);
+		printf("\n\nSelectionnez votre choix : ");
 
+		if (scanf_s("%d", &playerInput) == 1) {
 
-		switch (choix) {
-		case 0:
-			// Boucle pour retourner les thèmes.
-			for (int mm = 0; mm < 9; mm++) {
-				printf("%d\n", jeu.valeurTheme[mm]);
-			}
-			settings = false;
-			break;
-		default:
-			if (choix >= 1 && choix <= 9) {
-				printf("Activer le theme %s des questions ? \n 0> DESACTIVE \n 1> ACTIVE \n", jeu.listeTheme[choix]);
-				scanf("%d", &valid);
+			if (playerInput >= 0 && playerInput <= 9) {
 
-				switch (valid) {
-				case 1:
-					themeValide[choix - 1] = true;
-					break;
-				case 0:
-					themeValide[choix - 1] = false;
-					break;
-				default:
-					printf("Sélectionner une valeur dans celle proposer\n");
+				if (playerInput == 0) {
+
+					ClearScreen();
 					break;
 				}
-			}
-			else {
-				printf("Sélectionner une valeur dans celle proposer \n");
-			}
-			break;
-		}
 
-		for (int j = 0; j < 9; j++) {
-
-			jeu.valeurTheme[j] = themeValide[j];
+				ActiveDesactive(playerInput - 1);
+			}
 		}
+		while (getchar() != '\n');
 	}
-	return jeu.valeurTheme;
+}
+
+
+void ActiveDesactive(int numeroMatiere) {
+
+	ClearScreen();
+	printf("Voulez vous activer le theme %s : \n ", jeu.listeMatiere[numeroMatiere]->nom);
+	if (jeu.listeMatiere[numeroMatiere]->active) {
+
+		printf("1> ACTIVE (Choix Actuel)\n 2> DESACTIVE \n \n");
+	}
+	else {
+
+		printf("1> ACTIVE \n 2> DESACTIVE (Choix Actuel) \n \n");
+	}
+	printf("Selectionnez une des deux options : ");
+
+	int playerInput;
+
+	while (1) {
+
+		if (scanf_s("%d", &playerInput) == 1) {
+
+			if (playerInput == 1 || playerInput == 2) {
+
+				switch (playerInput)
+				{
+				case 1:
+
+					jeu.listeMatiere[numeroMatiere]->active = true;
+					break;
+				case 2:
+
+					jeu.listeMatiere[numeroMatiere]->active = false;
+					break;
+				
+				}
+				break;
+			}
+		}
+		while (getchar() != '\n');
+	}
+	
+}
+
+void ClearScreen() {
+
+	system("cls");
 }
 
 void Quit() {
 
 	int menu;
 
-	printf("Etes-vous sur de vouloir quitter ? \n 0> Quitter \n 1> Retour \n");
-	scanf("%d", &menu);
+	printf("Etes - vous sur de vouloir quitter ? \n 0> Quitter \n 1> Retour \n");
+	scanf_s("%d", &menu);
 
 	switch (menu)
 	{
 	case 0:
-		exit();
+		exit(0);
 	case 1:
 		break;
 	default:
 		printf("Selectionner une des valeurs proposee");
 	}
+}
+
+int Random(int minimum, int maximum) {
+
+	int NumberModulo = (maximum - minimum) + 1;
+	int numRandom = rand() % NumberModulo;
+	return numRandom + minimum;
 }

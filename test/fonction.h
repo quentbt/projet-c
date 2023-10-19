@@ -2,11 +2,11 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
 
-
-struct Question_Reponse;
-
 int jouer();
-bool Option();
+void Option();
+void ActiveDesactive(int numeroMatiere);
+void ClearScreen();
 void Quit();
+int Random(int minimum, int maximum);
 
 #endif
