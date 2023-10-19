@@ -9,10 +9,19 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Jeu.cpp \
+    Matiere.cpp \
+    Question.cpp \
+    fonction.c \
+    main.c \
     main.cpp \
     quizzdesign.cpp
 
 HEADERS += \
+    Jeu.h \
+    Matiere.h \
+    Question.h \
+    fonction.h \
     quizzdesign.h
 
 FORMS += \

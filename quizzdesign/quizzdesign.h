@@ -17,8 +17,9 @@ public:
 
     // Fonctions
     void SwitchPage(int NumeroPage);
-
-
+    void ActiveValidBtn();
+    void ChangeQuestion();
+    void CreateJeu();
 
 private:
     Ui::quizzdesign *ui;
